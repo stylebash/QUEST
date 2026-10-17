@@ -607,7 +607,7 @@ class QUEST {
     /**
      * Reports task results back from an adventurer subprocess to the parent Dispatcher window via WM_COPYDATA.
      */
-    static Report(strResults := true, missionId := 0, hwnd := 0, autoExit := true) {
+    static Report(strResults := true, autoExit := true, missionId := 0, hwnd := 0) {
         DetectHiddenWindows(true)
         this.TraceLogger("Report() called by " . this.adventurerName . " targeting HWND " . this.dispatcherHwnd)
         targetHwnd := (hwnd != 0) ? Integer(hwnd) : this.dispatcherHwnd
