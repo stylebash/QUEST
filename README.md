@@ -167,6 +167,7 @@ notes**
 | `QUEST.missionDeadline` | Sets the default timeout threshold in milliseconds before a task is killed. |
 | `QUEST.keepDispatcherAlive` | Keeps the main dispatcher process persistent even after all active missions complete. |
 | `QUEST.traceAndLog` | Enables or disables file-based trace logging (`QUEST_trace_and.log`). |
+| `QUEST.traceAndLogFileName` | Filename where log data is saved. Defaults to: `QUEST_trace_and.log`. |
 
 ---
 
