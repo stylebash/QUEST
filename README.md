@@ -1,10 +1,18 @@
 # QUEST
-Quick Utility for External Subprocess Tasks
+## Quick Utility for External Subprocess Tasks ##
 
 
-A lightweight utility for delegating tasks to external AutoHotkey subprocesses. 
-- Manages asynchronous parallel and sequential task execution.
+A helper class to streamline processing external AHK scripts asynchronously or synchronously.
 - Handles inter-process communication (IPC) via Windows WM_COPYDATA and Base64 JSON payloads.
+
+- Almost zero boilerplate code.
+- Convention over configuration. 
+  - Loose and versatile convention as well.
+- Call nested object data directly.
+  - QUEST handles unpacking objects for you. 
+- Chain data dependent processes (synchronous mode).
+- Nest dispatcher branches towards leaf processes "missions".
+- Easily track and trace subprocess events by naming a "mission" to an "adventurer". 
 
 ---
 
@@ -159,15 +167,17 @@ notes**
 
 | Method / Property | Description |
 | :--- | :--- |
-| `QUEST.Dispatch(missions, [callback], [backupSupplies], [mode])` | Dispatches missions in `parallel` or `sequential`/`serial` mode. |
-| `QUEST.Report(payload, [missionId], [hwnd], [autoExit])` | Reports data back to the parent dispatcher window via `WM_COPYDATA` and exits by default. |
-| `QUEST.Get(key, [defaultValue])` | Retrieves a supply value safely from initialized adventurer options. |
+| `QUEST.Dispatch(missions, [callback], [backupSupplies], [mode])` | Spawns sub-processes. Dispatches missions asynchronously (`parallel`) or synchronously (`sequential`/`serial`). |
+| `QUEST.Report(payload, [missionId], [hwnd], [autoExit])` | Reports data back to the parent dispatcher and exits by default. |
 | `QUEST.UnpackSerialResults(resultsMap, [targetKey])` | Helper to flatten and unpack serial execution result maps into an array. |
-| `QUEST.missionFile` | Sets the default target adventurer script file name. |
-| `QUEST.missionDeadline` | Sets the default timeout threshold in milliseconds before a task is killed. |
-| `QUEST.keepDispatcherAlive` | Keeps the main dispatcher process persistent even after all active missions complete. |
-| `QUEST.traceAndLog` | Enables or disables file-based trace logging (`QUEST_trace_and.log`). |
+| `QUEST.missionFile` | Sets the target adventurer script file name. |
+| `QUEST.missionDeadline` | Sets the timeout threshold in milliseconds before a task is killed. |
+| `QUEST.keepDispatcherAlive` | Keeps the main dispatcher process persistent even after all missions are complete and have reported back. |
+| `QUEST.traceAndLog` | `true` or `false`. Toggle file-based trace logging (`QUEST_trace_and.log`). |
 | `QUEST.traceAndLogFileName` | Filename where log data is saved. Defaults to: `QUEST_trace_and.log`. |
+| `QUEST.items.supply` | Retrieve singular primitive data passed from the dispatcher. |
+| `QUEST.items.<key>` | If the dispatcher passes a map object or an object literal, QUEST unpacks the object so you just have to call the specific [key]. |
+| `QUEST.Get(key, [defaultValue])` | Alternative to `QUEST.items.____`. Retrieves a supply value safely from initialized adventurer options. |
 
 ---
 
