@@ -9,7 +9,8 @@ A helper class to streamline processing external AHK scripts asynchronously or s
 - Convention over configuration. 
   - Loose and versatile convention as well.
 - Call nested object data directly.
-  - QUEST handles unpacking objects for you. 
+  - QUEST handles unpacking objects for you.
+  - Map() and object literals: {} are treated the same, too.
 - Chain data dependent processes (synchronous mode).
 - Nest dispatcher branches towards leaf processes "missions".
 - Easily track and trace subprocess events by naming a "mission" to an "adventurer". 
