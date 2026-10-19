@@ -117,21 +117,18 @@ class QUEST {
         optsMap.DefineProp("__Get", { Call: (self, name, params) => self.Has(name) ? self[name] : "" })
 
         if (Type(parsed) == "Map") {
-            for k, v in parsed {
+            for k, v in parsed 
                 optsMap[k] := v
-            }
         } else if (IsObject(parsed)) {
-            for k, v in parsed.OwnProps() {
+            for k, v in parsed.OwnProps() 
                 optsMap[k] := parsed.%k%
-            }
         }
 
-        if (optsMap.Has("dispatcherHwnd")) {
+        if (optsMap.Has("dispatcherHwnd")) 
             this.dispatcherHwnd := Integer(optsMap["dispatcherHwnd"])
-        }
-        if (optsMap.Has("taskId")) {
+        
+        if (optsMap.Has("taskId")) 
             this.currentMissionId := Integer(optsMap["taskId"])
-        }
 
         ; Extract adventurerName / item priority without over-writing
         if (optsMap.Has("adventurerName") && optsMap["adventurerName"] != "") {
@@ -142,9 +139,8 @@ class QUEST {
         } else if (optsMap.Has("item") && optsMap["item"] != "") {
             this.adventurerName := optsMap["item"]
             optsMap.Delete("item")
-        } else {
+        } else 
             this.adventurerName := "adventurer_1"
-        }
 
         ; Store pure user supplies into QUEST.items
         this.items := optsMap
@@ -181,9 +177,9 @@ class QUEST {
      * Retrieves a supply value by key from the adventurer's initialized options map.
      */
     static Get(key, defaultValue := "") {
-        if (Type(this.items) == "Map") {
+        if (Type(this.items) == "Map") 
             return this.items.Has(key) ? this.items[key] : defaultValue
-        }
+        
         return defaultValue
     }
 
@@ -191,12 +187,12 @@ class QUEST {
      * Helper to retrieve or lazily generate an auto-numbered adventurer name.
      */
     static _ResolveAdventurerName(explicitName, isSingleDispatch) {
-        if (explicitName != "") {
+        if (explicitName != "") 
             return explicitName
-        }
-        if (isSingleDispatch && HasProp(this, "adventurerName") && this.adventurerName != "") {
+        
+        if (isSingleDispatch && HasProp(this, "adventurerName") && this.adventurerName != "") 
             return this.adventurerName
-        }
+        
         this._globalAdventurerIndex++
         return "adventurer_" . this._globalAdventurerIndex
     }
@@ -209,15 +205,13 @@ class QUEST {
         supplies := Map()
         if (Type(source) == "Map") {
             for k, v in source {
-                if (k != "adventurerName" && k != "script" && k != "missionFile" && k != "missionDeadline" && k != "supplies" && k != "opts") {
+                if (k != "adventurerName" && k != "script" && k != "missionFile" && k != "missionDeadline" && k != "supplies" && k != "opts") 
                     supplies[k] := v
-                }
             }
         } else if (IsObject(source)) {
             for k, v in source.OwnProps() {
-                if (k != "adventurerName" && k != "script" && k != "missionFile" && k != "missionDeadline" && k != "supplies" && k != "opts") {
+                if (k != "adventurerName" && k != "script" && k != "missionFile" && k != "missionDeadline" && k != "supplies" && k != "opts") 
                     supplies[k] := source.%k%
-                }
             }
         }
         return supplies
@@ -234,22 +228,20 @@ class QUEST {
         mode := StrLower(mode)
 
         ; Ensure global sequence counter exists across ALL dispatches
-        if (!HasProp(this, "_globalAdventurerIndex")) {
+        if (!HasProp(this, "_globalAdventurerIndex")) 
             this._globalAdventurerIndex := 0
-        }
 
         ; Track whether the user passed a single mission or an array
         isSingleDispatch := (Type(missions) != "Array")
 
-        if (isSingleDispatch) {
+        if (isSingleDispatch) 
             missions := [missions]
-        }
 
         if (missions.Length == 0) {
             this._CheckFinished()
-            if (reportToThisFunc) {
+            if (reportToThisFunc) 
                 reportToThisFunc.Call(results)
-            }
+            
             return
         }
 
@@ -279,14 +271,12 @@ class QUEST {
                         : (mission.Has("missionFile") && mission["missionFile"] != "") ? mission["missionFile"] : ""
                     deadline   := (mission.Has("missionDeadline") && mission.Get("missionDeadline", 0) != 0) ? mission["missionDeadline"] : 0
                     
-                    if (mission.Has("supplies") && mission.Get("supplies", "") != "") {
+                    if (mission.Has("supplies") && mission.Get("supplies", "") != "") 
                         supplies := mission["supplies"]
-                    } else if (mission.Has("opts") && mission.Get("opts", "") != "") {
+                    else if (mission.Has("opts") && mission.Get("opts", "") != "") 
                         supplies := mission["opts"]
-                    } else {
+                    else 
                         supplies := this._ExtractSupplies(mission)
-                    }
-
                 } else {
                     ; Plain Object Literal ({ key: val }) or Struct mission definition
                     explicitName := (HasProp(mission, "adventurerName") && mission.adventurerName != "") ? mission.adventurerName : ""
@@ -296,13 +286,12 @@ class QUEST {
                         : HasProp(mission, "missionFile") && mission.missionFile != "" ? mission.missionFile : ""
                     deadline   := HasProp(mission, "missionDeadline") ? mission.missionDeadline : 0
 
-                    if (HasProp(mission, "supplies")) {
+                    if (HasProp(mission, "supplies")) 
                         supplies := mission.supplies
-                    } else if (HasProp(mission, "opts")) {
+                    else if (HasProp(mission, "opts")) 
                         supplies := mission.opts
-                    } else {
+                    else 
                         supplies := this._ExtractSupplies(mission)
-                    }
                 }
 
                 missionArray := [adventurerName, supplies]
@@ -354,9 +343,9 @@ class QUEST {
                 "message", Format("Adventurer mission file not found: '{1}'", fullScriptPath)
             )
 
-            if (callback) {
+            if (callback) 
                 callback.Call(dataKeyStr, errPayload, 0)
-            }
+            
             this._CheckFinished()
             return
         }
@@ -373,15 +362,13 @@ class QUEST {
                 }
             } else if (Type(sourceData) == "Map") {
                 for k, v in sourceData {
-                    if (k != "adventurerName" && k != "script" && k != "missionDeadline") {
+                    if (k != "adventurerName" && k != "script" && k != "missionDeadline") 
                         targetMap[k] := v
-                    }
                 }
             } else if (IsObject(sourceData)) {
                 for k, v in sourceData.OwnProps() {
-                    if (k != "adventurerName" && k != "script" && k != "missionDeadline") {
+                    if (k != "adventurerName" && k != "script" && k != "missionDeadline") 
                         targetMap[k] := sourceData.%k%
-                    }
                 }
             }
         }
@@ -412,16 +399,15 @@ class QUEST {
                 "error", true,
                 "message", Format("Failed to launch adventurer process for mission: '{1}'", fullScriptPath)
             )
-            if (callback) {
+            if (callback) 
                 callback.Call(dataKeyStr, errPayload, 0)
-            }
+            
             this._CheckFinished()
             return
         }
 
-        if (deadline <= 0) {
+        if (deadline <= 0) 
             deadline := this.missionDeadline
-        }
 
         timerFunc := ""
         if (deadline > 0) {
@@ -553,13 +539,13 @@ class QUEST {
         }
 
         __Get(name, params) {
-            ; 1. Positional access: prev.Last
+            ; 1. Positional access: [variable.Last] e.g. prev.Last
             if (name == "Last" && this.keys.Length > 0) {
                 lastKey := this.keys[this.keys.Length]
                 return this._WrapIfMap(QUEST._ExtractValue(this.map[lastKey]))
             }
 
-            ; 2. Explicit step name lookup: prev.asdf or prev.adventurer_2
+            ; 2. Explicit step name lookup: [variable.<adventurerName>] e.g. prev.captainPlanet or prev.adventurer_2
             if (this.map.Has(name)) {
                 return this._WrapIfMap(QUEST._ExtractValue(this.map[name]))
             }
@@ -631,9 +617,8 @@ class QUEST {
 
         result := SendMessage(this.WM_COPYDATA, targetMissionId, cds.Ptr,, "ahk_id " . targetHwnd)
 
-        if (autoExit) {
+        if (autoExit) 
             ExitApp()
-        }
 
         return result
     }
@@ -677,16 +662,14 @@ class QUEST {
      * Terminates the adventurer process and invokes the error callback.
      */
     static _OnTaskTimeout(missionId) {
-        if (!this.pendingMissions.Has(missionId)) {
+        if (!this.pendingMissions.Has(missionId)) 
             return
-        }
 
         missionInfo := this.pendingMissions[missionId]
         elapsedMs := A_TickCount - missionInfo.startTime
 
-        if (missionInfo.pid != 0 && ProcessExist(missionInfo.pid)) {
+        if (missionInfo.pid != 0 && ProcessExist(missionInfo.pid)) 
             try ProcessClose(missionInfo.pid)
-        }
 
         errPayload := Map(
             "error", true,
@@ -699,9 +682,8 @@ class QUEST {
         this.pendingMissions.Delete(missionId)
         this.activeMissionCount--
 
-        if (callback) {
+        if (callback) 
             callback.Call(dataKey, errPayload, elapsedMs)
-        }
 
         this._CheckFinished()
     }
@@ -815,9 +797,8 @@ class QUEST {
      */
     static _SanitizeSerialPayload(payload, serialCtx) {
         ; 1. Direct match: step lambda returned `results` directly
-        if (Type(payload) == "QUEST.SerialContext" || Type(payload) == "SerialContext") {
+        if (Type(payload) == "QUEST.SerialContext" || Type(payload) == "SerialContext") 
             return serialCtx.Last
-        }
 
         ; 2. Plain Object / Struct Literal ({ action: "multiply", a: results })
         if (Type(payload) == "Object") {
@@ -862,22 +843,19 @@ class QUEST {
         cbData := NumGet(lParam, A_PtrSize, "UInt")
         lpData := NumGet(lParam, A_PtrSize == 8 ? 16 : 8, "UPtr")
 
-        if (lpData == 0 || cbData == 0) {
+        if (lpData == 0 || cbData == 0) 
             return true
-        }
 
         payloadStr := StrGet(lpData, "UTF-8")
 
-        if (!this.pendingMissions.Has(missionId)) {
+        if (!this.pendingMissions.Has(missionId)) 
             return true
-        }
 
         missionInfo := this.pendingMissions[missionId]
         elapsedMs := A_TickCount - missionInfo.startTime
 
-        if (missionInfo.timerFunc) {
+        if (missionInfo.timerFunc) 
             SetTimer(missionInfo.timerFunc, 0)
-        }
 
         ; Safely remove pending task before firing callbacks
         this.pendingMissions.Delete(missionId)
@@ -890,9 +868,8 @@ class QUEST {
             parsedResult := Map("error", true, "message", "JSON Parse Error: " . err.Message)
         }
 
-        if (HasProp(missionInfo, "callback") && missionInfo.callback) {
+        if (HasProp(missionInfo, "callback") && missionInfo.callback) 
             missionInfo.callback.Call(missionInfo.dataKey, parsedResult, elapsedMs)
-        }
 
         this._CheckFinished()
         return true
@@ -905,9 +882,8 @@ class QUEST {
         if (this.activeMissionCount <= 0) {
             this.activeMissionCount := 0
             ; Do not drop persistence if this process is an active adventurer thread waiting to report back
-            if (!this.keepDispatcherAlive && !this.isAdventurerThread) {
+            if (!this.keepDispatcherAlive && !this.isAdventurerThread) 
                 Persistent(false)
-            }
         }
     }
 
@@ -920,8 +896,7 @@ class QUEST {
      * @param {string} msg
      */
     static TraceLogger(msg) {
-        if (this.traceAndLog) {
+        if (this.traceAndLog) 
             try FileAppend("[" . A_Now . "." . A_MSec . "] [PID " . ProcessExist() . "] " . msg . "`n", A_ScriptDir . "\" . this.traceAndLogFileName)
-        }
     }
 }
