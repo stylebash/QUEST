@@ -1,6 +1,5 @@
+<h1 align="center">QUEST</h1>
 #### Quick Utility for External Subprocess Tasks
-
-# QUEST
 
 > A helper class to streamline processing external AHK scripts asynchronously or synchronously.
 
