@@ -6,7 +6,7 @@
 
 </div>
 
-> [!IMPORTANT] 📌
+> [!IMPORTANT]
 > Convention over configuration.
 
 > A helper class to streamline processing external AHK scripts asynchronously or synchronously.
