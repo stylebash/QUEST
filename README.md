@@ -8,15 +8,7 @@
 
 <div align="center">
 
-> [!TIP]
 >  A helper class to streamline processing external AHK scripts asynchronously or synchronously.
-
-> │ **WARNING:** This text is manually framed. │
-
-+---------------------------------------------------+
-|  If you use a code block, it wraps your text      |
-|  inside a complete box on all sides.              |
-+---------------------------------------------------+
 
 </div>
 
