@@ -6,6 +6,9 @@
 
 </div>
 
+> [!IMPORTANT] 📌
+> Convention over configuration.
+
 > A helper class to streamline processing external AHK scripts asynchronously or synchronously.
 
 - Handles inter-process communication (IPC) via Windows WM_COPYDATA and Base64 JSON payloads.
