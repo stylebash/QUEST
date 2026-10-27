@@ -12,13 +12,11 @@
 
 </div>
 
-- Handles inter-process communication (IPC) via Windows WM_COPYDATA and Base64 JSON payloads.
-- Almost zero boilerplate **code.**
-- Convention over configuration.
-  - Loose and versatile convention as well.
+- Almost zero boilerplate `code` needed to use it.
+- Flexible Conventions over configuration.
 - Call nested object data directly.
   - QUEST handles unpacking objects for you.
-  - Map() and object literals: {} are treated the same, too.
+  - Map() and object literals: {} are treated the same
 - Chain data dependent processes (synchronous mode).
 - Nest dispatcher branches towards leaf processes "missions".
 - Easily track and trace subprocess events by naming a "mission" to an "adventurer".
@@ -33,15 +31,16 @@ This class tackles that pain point.
 You can define missions, spawn "adventurer" subprocesses, set timeouts, and pass structured supplies or primitive data back and forth seamlessly.
 
 - **Asynchronous & Serial Execution** – run tasks in parallel or chain them sequentially where subsequent steps can reference previous results (`prev`).
+- Handles inter-process comms (IPC) between .AHK files via Windows WM_COPYDATA and Base64 JSON payloads.
 - **Windows-native IPC** – uses `WM_COPYDATA` (`0x004A`) under the hood so data is transmitted cleanly between parent dispatchers and child scripts without writing temporary files.
 - **Built-in Safety Guardrails** – per-task deadlines automatically terminate hanging adventurer processes and catch errors gracefully.
 
 You'll want this if you just want:
 
-- To make your AHK files talk to each other without losing your sanity.
+- To make your AHK files talk to each other with the only overhead of including a file.
 - To run background jobs or heavy logic in isolated child subprocesses.
 - Structured task chains with clean callback handling.
-- To keep your main UI thread responsive while adventurers do the heavy lifting.
+- To keep your main UI thread responsive while adventurer missions do the heavy lifting.
 
 ---
 
@@ -169,10 +168,9 @@ SerialReport(results) {
 }
 ```
 
-notes\*\*
-
-- If an adventurer doesn't report back after a set `QUEST.missionDeadline`, the task is automatically marked as failed to prevent deadlocks.
-- More usage examples (covering primitive types, structured maps, errors, and array conventions) can be found in the [usageExamples/](usageExamples/) folder.
+> [!NOTE]
+> - If an adventurer doesn't report back after a set `QUEST.missionDeadline`, the task is automatically marked as failed to prevent deadlocks.
+> - More usage examples (covering primitive types, structured maps, errors, and array conventions) can be found in the [usageExamples/](usageExamples/) folder.
 
 ---
 
