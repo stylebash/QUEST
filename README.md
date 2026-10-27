@@ -61,7 +61,6 @@ QUEST is structured around `QUEST.ahk` and requires a JSON helper (such as cJSON
      main.ahk
 ```
 
-```
 3. Include it at the top of your main script:
 
    ```ahk
