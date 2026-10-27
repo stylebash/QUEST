@@ -53,7 +53,7 @@ QUEST is structured around `QUEST.ahk` and requires a JSON helper (such as cJSON
 1. Download `[QUEST.ahk](QUEST.ahk)` from this repository.
 2. Place it in your project folder or a shared `lib` directory, for example:
 
-   ```text
+```text
    your_ahk_project/
      lib/
        QUEST.ahk
@@ -63,7 +63,7 @@ QUEST is structured around `QUEST.ahk` and requires a JSON helper (such as cJSON
 
 3. Include it at the top of your main script:
 
-   ```ahk
+```ahk
    #Requires AutoHotkey v2.0
    #Include "lib\QUEST.ahk"
 ```
